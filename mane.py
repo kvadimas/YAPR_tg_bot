@@ -11,7 +11,9 @@ from logging.handlers import RotatingFileHandler
 
 from exceptions import TokensErrorException
 from homework import *
-import telegram
+from poushcat import *
+from telegram import ReplyKeyboardMarkup, Bot
+from telegram.ext import CommandHandler, Updater
 
 load_dotenv()
 
@@ -20,7 +22,7 @@ PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
 TELEGRAM_BOT_KVADIMAS_TOKEN = os.getenv('TELEGRAM_BOT_KVADIMAS_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-RETRY_PERIOD = 600
+RETRY_PERIOD = 60#0
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
@@ -41,7 +43,7 @@ time_test = int(DT.datetime.strptime(
 logging.basicConfig(
     level=logging.DEBUG,
     filename='mane.log',
-    filemode='a',
+    filemode='w',
     format='%(asctime)s, %(funcName)s, %(levelname)s, %(message)s'
 )
 
@@ -55,6 +57,10 @@ handler = RotatingFileHandler(
     maxBytes=50000000,
     backupCount=5
 )
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 def send_message(bot, message):
@@ -90,12 +96,9 @@ def main():
             logging.debug('Проверка ответа API.')
             checked_hwk = check_response(response)
             logging.debug('Проверка ответа API: OK')
-            if len(checked_hwk) == 0:
+            if not checked_hwk['homeworks']:
                 continue
-            elif len(checked_hwk) > 1:
-                homework = checked_hwk['homeworks'][0]
-            else:
-                homework = checked_hwk
+            homework = checked_hwk['homeworks'][0]
             if homework.get('status') != status:
                 message = parse_status(homework)
                 logging.debug(homework)

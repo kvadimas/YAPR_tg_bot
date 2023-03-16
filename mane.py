@@ -22,7 +22,7 @@ PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
 TELEGRAM_BOT_KVADIMAS_TOKEN = os.getenv('TELEGRAM_BOT_KVADIMAS_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 
-RETRY_PERIOD = 60#0
+RETRY_PERIOD = 600
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
@@ -41,7 +41,7 @@ time_test = int(DT.datetime.strptime(
 
 # Глобальная конфигурация для всех логгеров
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     filename='mane.log',
     filemode='w',
     format='%(asctime)s, %(funcName)s, %(levelname)s, %(message)s'

@@ -1,4 +1,4 @@
-# kvadimas_tg_bot
+# YAPR_tg_bot
 Telegram bot in Python language showing the status of my project on the review.
 (づ｡◕‿‿◕｡)づ
 ## Использование

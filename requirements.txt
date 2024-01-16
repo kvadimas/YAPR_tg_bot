@@ -24,7 +24,7 @@ requests==2.31.0
 six==1.16.0
 snowballstemmer==2.2.0
 toml==0.10.2
-tornado==6.3.2
+tornado==6.3.3
 tzdata==2022.7
 tzlocal==4.2
-urllib3==1.26.14
+urllib3==1.26.17
